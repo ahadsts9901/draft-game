@@ -135,10 +135,54 @@ const piece = (e,piece) =>{
                         
                     }
                 }
-            } else {
-                const ind1 = `${boxNum + 7}`
-                const ind2 = `${boxNum + 9}`
-                elementsToGlow = [ind1, ind2]
+                break
+            } else if(notOnBlackBoxBlackPiece[i]?.num != boxNum) {
+
+                var elemsToGlow = []
+
+                if(boxes[`box${boxNum + 9}`]?.firstElementChild?.id === "white"){
+                        
+                    if(boxes[`box${boxNum + 18}`]?.firstElementChild){
+                        break
+                    }else {
+                        console.log("p1",boxNum + 18);
+                        elemsToGlow.push(`${boxNum + 18}`)
+                        // break
+                    }
+                    
+                }else{
+                    if(boxes[`box${boxNum + 9}`]?.firstElementChild?.id === "black"){
+                        break
+                    }else{
+                        console.log("p1",boxNum + 9);
+                        elemsToGlow.push(`${boxNum + 9}`)
+                        // break
+                    }
+                } 
+                
+
+                if(boxes[`box${boxNum + 7}`]?.firstElementChild?.id === "white"){
+
+                    if(boxes[`box${boxNum + 14}`]?.firstElementChild){
+                        break
+                    }else {
+                        console.log("p2",boxNum + 14);
+                        elemsToGlow.push(`${boxNum + 14}`)
+                        // break
+                    }
+
+                } else {
+                    if(boxes[`box${boxNum + 7}`]?.firstElementChild?.id === "black"){
+                        break
+                    }else{
+                        console.log("p2", boxNum + 7);
+                        elemsToGlow.push(`${boxNum + 7}`)
+                        // break
+                    }
+                }
+
+                console.log(elemsToGlow);
+
             }
             
         }
