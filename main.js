@@ -85,18 +85,55 @@ const piece = (e,piece) =>{
 
         var elementsToGlow = []
 
-        const box = e.target.parentNode
+        var box = e?.target?.parentNode
+        
         const boxNum = +box.id.split("-")[1]
 
-        for (let i = 0; i < notOnBlackBoxBlackPiece.length; i++) {
+        for (let i = 0; i < notOnBlackBoxBlackPiece?.length; i++) {
 
-            if(notOnBlackBoxBlackPiece[i].num == boxNum){
-                if(notOnBlackBoxBlackPiece[i].not === "left"){
-                    elementsToGlow = [`${+notOnBlackBoxBlackPiece[i].num + 9}`]
-                    break
-                }else if(notOnBlackBoxBlackPiece[i].not === "right"){
-                    elementsToGlow = [`${+notOnBlackBoxBlackPiece[i].num + 7}`]
-                    break
+            if(notOnBlackBoxBlackPiece[i]?.num == boxNum){
+                if(notOnBlackBoxBlackPiece[i]?.not === "left"){
+
+                    if(boxes[`box${+notOnBlackBoxBlackPiece[i].num + 9}`]?.firstElementChild?.id === "white"){
+                        
+                        if(boxes[`box${+notOnBlackBoxBlackPiece[i]?.num + 18}`]?.firstElementChild){
+                            break
+                        }else {
+                            elementsToGlow = [`${+notOnBlackBoxBlackPiece[i]?.num + 18}`]
+                            break
+                        }
+
+                    }else{
+                        if(boxes[`box${+notOnBlackBoxBlackPiece[i].num + 9}`]?.firstElementChild?.id === "black"){
+                            elementsToGlow = []
+                            break
+                        }
+                        elementsToGlow = [`${+notOnBlackBoxBlackPiece[i]?.num + 9}`]
+                        break
+                    }
+                    
+                }else if(notOnBlackBoxBlackPiece[i]?.not === "right"){
+
+                    if(boxes[`box${+notOnBlackBoxBlackPiece[i].num + 7}`]?.firstElementChild?.id === "white"){
+                        
+                        if(boxes[`box${+notOnBlackBoxBlackPiece[i]?.num + 14}`]?.firstElementChild){
+                            break
+                        }else {
+                            elementsToGlow = [`${+notOnBlackBoxBlackPiece[i]?.num + 14}`]
+                            break
+                        }
+
+                    }else{
+                        
+                        if(boxes[`box${+notOnBlackBoxBlackPiece[i].num + 7}`]?.firstElementChild?.id === "black"){
+                            elementsToGlow = []
+                            break
+                        }else{
+                            elementsToGlow = [`${+notOnBlackBoxBlackPiece[i]?.num + 7}`]
+                            break
+                        }
+                        
+                    }
                 }
             } else {
                 const ind1 = `${boxNum + 7}`
@@ -109,12 +146,21 @@ const piece = (e,piece) =>{
         // un glow previous boxes
 
         let yellowBoxes = document.querySelectorAll(".yellow")
-            yellowBoxes.forEach((box)=>{
-                box.classList.remove("yellow")
-                box.classList.add("black")
-            })
+        yellowBoxes.forEach((box)=>{
+            box.classList.remove("yellow")
+            box.classList.add("black")
+        })
+
+        let orangeBoxes = document.querySelectorAll(".orange")
+        orangeBoxes.forEach((box)=>{
+            box.classList.remove("orange")
+            box.classList.add("black")
+        })
 
         // glow boxes
+
+        box.classList.remove("black")
+        box.classList.add("orange")
 
         for (let i = 0; i < elementsToGlow.length; i++) {
             let element = boxes[`box${elementsToGlow[i]}`]
