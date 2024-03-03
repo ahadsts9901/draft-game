@@ -79,6 +79,20 @@ var notOnBlackBoxBlackPiece = [
     {num:64, not:"none"},
 ]
 
+var notOnBlackBoxWhitePiece = [
+    {num:64, not:"left"},
+    {num:49, not:"right"},
+    {num:48, not:"left"},
+    {num:33, not:"right"},
+    {num:32, not:"left"},
+    {num:17, not:"right"},
+    {num:16, not:"left"},
+    {num:1, not:"none"},
+    {num:3, not:"none"},
+    {num:5, not:"none"},
+    {num:7, not:"none"},
+]
+
 const piece = (e,piece) =>{
 
     if(piece === "black"){
@@ -136,17 +150,14 @@ const piece = (e,piece) =>{
                     }
                 }
                 break
-            } else if(notOnBlackBoxBlackPiece[i]?.num != boxNum) {
-
-                var elemsToGlow = []
+            } else {
 
                 if(boxes[`box${boxNum + 9}`]?.firstElementChild?.id === "white"){
                         
                     if(boxes[`box${boxNum + 18}`]?.firstElementChild){
                         break
                     }else {
-                        console.log("p1",boxNum + 18);
-                        elemsToGlow.push(`${boxNum + 18}`)
+                        elementsToGlow[0] = boxNum + 18
                         // break
                     }
                     
@@ -154,8 +165,7 @@ const piece = (e,piece) =>{
                     if(boxes[`box${boxNum + 9}`]?.firstElementChild?.id === "black"){
                         break
                     }else{
-                        console.log("p1",boxNum + 9);
-                        elemsToGlow.push(`${boxNum + 9}`)
+                        elementsToGlow[0] = boxNum + 9
                         // break
                     }
                 } 
@@ -166,8 +176,7 @@ const piece = (e,piece) =>{
                     if(boxes[`box${boxNum + 14}`]?.firstElementChild){
                         break
                     }else {
-                        console.log("p2",boxNum + 14);
-                        elemsToGlow.push(`${boxNum + 14}`)
+                        elementsToGlow[1] = boxNum + 14
                         // break
                     }
 
@@ -175,13 +184,10 @@ const piece = (e,piece) =>{
                     if(boxes[`box${boxNum + 7}`]?.firstElementChild?.id === "black"){
                         break
                     }else{
-                        console.log("p2", boxNum + 7);
-                        elemsToGlow.push(`${boxNum + 7}`)
+                        elementsToGlow[1] = boxNum + 14
                         // break
                     }
                 }
-
-                console.log(elemsToGlow);
 
             }
             
@@ -212,7 +218,127 @@ const piece = (e,piece) =>{
             element.classList.add("yellow")
         }
 
-    }else if (piece === "white"){
+    }else if (piece === "white") {
+        var elementsToGlow = []
+
+        var box = e?.target?.parentNode
         
+        const boxNum = +box.id.split("-")[1]
+
+        for (let i = 0; i < notOnBlackBoxWhitePiece?.length; i++) {
+            
+            if(notOnBlackBoxWhitePiece[i]?.num == boxNum){
+
+                if(notOnBlackBoxWhitePiece[i]?.not === "left"){
+                    
+                    if(boxes[`box${+notOnBlackBoxWhitePiece[i].num - 9}`]?.firstElementChild?.id === "black"){
+
+                        if(boxes[`box${+notOnBlackBoxWhitePiece[i]?.num - 18}`]?.firstElementChild){
+                            break
+                        }else {
+                            elementsToGlow = [`${+notOnBlackBoxWhitePiece[i]?.num - 18}`]
+                            break
+                        }
+
+                    }else{
+                        if(boxes[`box${+notOnBlackBoxWhitePiece[i].num - 9}`]?.firstElementChild?.id === "white"){
+                            elementsToGlow = []
+                            break
+                        }
+                        elementsToGlow = [`${+notOnBlackBoxWhitePiece[i]?.num - 9}`]
+                        break
+                    }
+                    
+                }else if(notOnBlackBoxWhitePiece[i]?.not === "right"){
+
+                    if(boxes[`box${+notOnBlackBoxWhitePiece[i].num - 7}`]?.firstElementChild?.id === "black"){
+                        
+                        if(boxes[`box${+notOnBlackBoxWhitePiece[i]?.num - 14}`]?.firstElementChild){
+                            break
+                        }else {
+                            elementsToGlow = [`${+notOnBlackBoxWhitePiece[i]?.num - 14}`]
+                            break
+                        }
+
+                    }else{
+                        
+                        if(boxes[`box${+notOnBlackBoxWhitePiece[i].num - 7}`]?.firstElementChild?.id === "white"){
+                            elementsToGlow = []
+                            break
+                        }else{
+                            elementsToGlow = [`${+notOnBlackBoxWhitePiece[i]?.num - 7}`]
+                            break
+                        }
+                        
+                    }
+                }
+                break
+            } else {
+
+                if(boxes[`box${boxNum - 9}`]?.firstElementChild?.id === "white"){
+                        
+                    if(boxes[`box${boxNum - 18}`]?.firstElementChild){
+                        break
+                    }else {
+                        elementsToGlow[0] = boxNum - 18
+                        // break
+                    }
+                    
+                }else{
+                    if(boxes[`box${boxNum - 9}`]?.firstElementChild?.id === "black"){
+                        break
+                    }else{
+                        elementsToGlow[0] = boxNum - 9
+                        // break
+                    }
+                } 
+                
+
+                if(boxes[`box${boxNum - 7}`]?.firstElementChild?.id === "white"){
+
+                    if(boxes[`box${boxNum - 14}`]?.firstElementChild){
+                        break
+                    }else {
+                        elementsToGlow[1] = boxNum - 14
+                        // break
+                    }
+
+                } else {
+                    if(boxes[`box${boxNum - 7}`]?.firstElementChild?.id === "black"){
+                        break
+                    }else{
+                        elementsToGlow[1] = boxNum - 14
+                        // break
+                    }
+                }
+
+            }
+            
+        }
+
+        // un glow previous boxes
+
+        let yellowBoxes = document.querySelectorAll(".yellow")
+        yellowBoxes.forEach((box)=>{
+            box.classList.remove("yellow")
+            box.classList.add("black")
+        })
+
+        let orangeBoxes = document.querySelectorAll(".orange")
+        orangeBoxes.forEach((box)=>{
+            box.classList.remove("orange")
+            box.classList.add("black")
+        })
+
+        // glow boxes
+
+        box.classList.remove("black")
+        box.classList.add("orange")
+
+        for (let i = 0; i < elementsToGlow.length; i++) {
+            let element = boxes[`box${elementsToGlow[i]}`]
+            element.classList.remove("black")
+            element.classList.add("yellow")
+        }
     }
 }
